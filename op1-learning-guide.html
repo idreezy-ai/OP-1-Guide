@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OP-1 Beat Making Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --bg2: #161616;
+    --bg3: #1e1e1e;
+    --bg4: #272727;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --accent3: #47c4ff;
+    --text: #f0f0f0;
+    --text2: #a0a0a0;
+    --text3: #636363;
+    --border: #2a2a2a;
+    --green: #4dff91;
+    --red: #ff4d6d;
+    --purple: #b47dff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* LAYOUT */
+  .app { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+
+  /* SIDEBAR */
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .sidebar-logo h1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .sidebar-logo p {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  .sidebar-section {
+    padding: 16px 12px 8px;
+  }
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    color: var(--text2);
+    font-size: 13.5px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--text); }
+  .nav-item.active { background: var(--bg3); color: var(--accent); }
+  .nav-item .icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .nav-level {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: auto;
+    font-weight: 500;
+  }
+  .level-beginner { background: rgba(77,255,145,0.12); color: var(--green); }
+  .level-intermediate { background: rgba(255,107,53,0.12); color: var(--accent2); }
+  .level-advanced { background: rgba(180,125,255,0.12); color: var(--purple); }
+
+  .progress-footer {
+    margin-top: auto;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .progress-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .progress-bar-bg { background: var(--bg4); border-radius: 4px; height: 4px; }
+  .progress-bar-fill { height: 4px; border-radius: 4px; background: var(--accent); transition: width 0.3s; }
+
+  /* PAGE SECTIONS */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 36px;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h2 {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    color: var(--text2);
+    font-size: 15px;
+    max-width: 540px;
+    line-height: 1.7;
+  }
+  .hero-tags { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+  .tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    background: var(--bg3);
+  }
+
+  /* CONTENT AREA */
+  .content { padding: 36px 48px 60px; max-width: 760px; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 20px;
+    margin-top: 40px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* STEP CARDS */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .step-card:hover { border-color: var(--bg4); background: var(--bg3); }
+  .step-card.expanded { border-color: var(--accent); background: var(--bg3); }
+  .step-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .step-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .step-card.expanded .step-num {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+  .step-card-title { font-weight: 500; font-size: 15px; flex: 1; }
+  .step-card-desc { font-size: 13px; color: var(--text2); }
+  .step-toggle {
+    font-size: 16px;
+    color: var(--text3);
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .step-card.expanded .step-toggle { transform: rotate(180deg); color: var(--accent); }
+  .step-content {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .step-card.expanded .step-content { display: block; }
+
+  /* KEY COMBOS */
+  .key-combos { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .key-combo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .key-combo-keys { display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-width: 140px; }
+  kbd {
+    display: inline-block;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .key-plus { color: var(--text3); font-size: 12px; }
+  .key-combo-desc { font-size: 13px; color: var(--text2); }
+
+  /* TIP BOX */
+  .tip {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .tip-pro { background: rgba(232,255,71,0.06); border: 1px solid rgba(232,255,71,0.2); color: var(--text); }
+  .tip-note { background: rgba(71,196,255,0.06); border: 1px solid rgba(71,196,255,0.2); color: var(--text); }
+  .tip-warn { background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); color: var(--text); }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* BEAT GRID */
+  .beat-grid-wrap { margin: 20px 0; }
+  .beat-grid-label { font-size: 12px; color: var(--text2); margin-bottom: 10px; font-family: 'Space Mono', monospace; }
+  .beat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .beat-row-name {
+    width: 36px;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .beat-cells { display: flex; gap: 4px; }
+  .beat-cell {
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+    position: relative;
+  }
+  .beat-cell.beat-1 { width: 3px; background: var(--border); border: none; border-radius: 0; }
+  .beat-cell.active-kick { background: var(--accent); border-color: var(--accent); }
+  .beat-cell.active-snare { background: var(--accent2); border-color: var(--accent2); }
+  .beat-cell.active-hihat { background: var(--accent3); border-color: var(--accent3); }
+  .beat-cell.active-perc { background: var(--purple); border-color: var(--purple); }
+  .beat-controls { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .beat-btn {
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .beat-btn:hover { background: var(--bg4); border-color: var(--text3); }
+  .beat-btn.primary { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 500; }
+  .beat-btn.primary:hover { background: #d4eb3a; }
+  .beat-tempo { font-size: 12px; color: var(--text2); font-family: 'Space Mono', monospace; }
+
+  /* ENGINE CARDS */
+  .engine-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+  .engine-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .engine-card:hover { border-color: var(--bg4); }
+  .engine-card.selected { border-color: var(--accent); }
+  .engine-name { font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+  .engine-type { font-size: 11px; color: var(--text3); font-family: 'Space Mono', monospace; text-transform: uppercase; margin-bottom: 8px; }
+  .engine-desc { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+  .engine-dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 10px; }
+
+  /* SEQUENCER CHART */
+  .seq-list { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .seq-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .seq-badge {
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .seq-info h4 { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .seq-info p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .tab {
+    padding: 10px 18px;
+    font-size: 13.5px;
+    cursor: pointer;
+    color: var(--text2);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s;
+    margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* TAPE DIAGRAM */
+  .tape-diagram {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+  }
+  .tape-tracks { display: flex; flex-direction: column; gap: 8px; }
+  .tape-track { display: flex; align-items: center; gap: 10px; }
+  .track-label { width: 24px; color: var(--text3); text-align: right; flex-shrink: 0; }
+  .track-bar { flex: 1; height: 20px; border-radius: 3px; position: relative; overflow: hidden; }
+  .track-segment {
+    position: absolute;
+    height: 100%;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-size: 10px;
+    color: #000;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .tape-ruler {
+    display: flex;
+    padding-left: 34px;
+    margin-bottom: 6px;
+    color: var(--text3);
+    font-size: 10px;
+    gap: 0;
+  }
+  .tape-mark { flex: 1; text-align: left; }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg2);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .check-item:hover { background: var(--bg3); }
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .check-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+  }
+  .check-item.checked .check-text { color: var(--text2); text-decoration: line-through; }
+  .check-text { font-size: 13.5px; flex: 1; }
+
+  /* WORKFLOW STEPS */
+  .workflow { display: flex; flex-direction: column; gap: 0; position: relative; margin: 16px 0; }
+  .workflow::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 28px;
+    bottom: 28px;
+    width: 1px;
+    background: var(--border);
+  }
+  .wf-step { display: flex; gap: 16px; align-items: flex-start; padding: 12px 0; }
+  .wf-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg2);
+    z-index: 1;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text2);
+  }
+  .wf-step.highlight .wf-dot { border-color: var(--accent); color: var(--accent); background: rgba(232,255,71,0.08); }
+  .wf-body { padding-top: 4px; }
+  .wf-body h4 { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .wf-body p { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .content { padding: 24px 20px 48px; }
+    .hero { padding: 24px 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">OP-1</div>
+    <h1>Beat Making Guide</h1>
+    <p>From first kick to complex beats</p>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Getting Started</div>
+    <button class="nav-item active" onclick="showPage('overview')">
+      <span class="icon">◎</span> Overview
+      <span class="nav-level level-beginner">Intro</span>
+    </button>
+    <button class="nav-item" onclick="showPage('setup')">
+      <span class="icon">⚡</span> Setup & First Sound
+      <span class="nav-level level-beginner">Beginner</span>
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Beat Making</div>
+    <button class="nav-item" onclick="showPage('drummode')">
+      <span class="icon">◈</span> Drum Mode
+      <span class="nav-level level-beginner">Beginner</span>
+    </button>
+    <button class="nav-item" onclick="showPage('tape')">
+      <span class="icon">▶</span> Tape Mode
+      <span class="nav-level level-beginner">Beginner</span>
+    </button>
+    <button class="nav-item" onclick="showPage('sequencers')">
+      <span class="icon">⊞</span> Sequencers
+      <span class="nav-level level-intermediate">Intermediate</span>
+    </button>
+    <button class="nav-item" onclick="showPage('synth')">
+      <span class="icon">∿</span> Synth Engines
+      <span class="nav-level level-intermediate">Intermediate</span>
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Advanced</div>
+    <button class="nav-item" onclick="showPage('advanced')">
+      <span class="icon">✦</span> Complex Beats
+      <span class="nav-level level-advanced">Advanced</span>
+    </button>
+    <button class="nav-item" onclick="showPage('tips')">
+      <span class="icon">◇</span> Pro Tips & Tricks
+      <span class="nav-level level-advanced">Advanced</span>
+    </button>
+  </div>
+
+  <div class="progress-footer">
+    <div class="progress-label">
+      <span>Progress</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ============ OVERVIEW ============ -->
+  <div class="page active" id="page-overview">
+    <div class="hero">
+      <div class="hero-eyebrow">Teenage Engineering OP-1</div>
+      <h2>Your complete beat making guide</h2>
+      <p>The OP-1 is a portable synthesizer, drum machine, and 4-track recorder in one. This guide takes you from your very first beat to layered, complex rhythm patterns — all from the official handbook.</p>
+      <div class="hero-tags">
+        <span class="tag">Drum Machine</span>
+        <span class="tag">4-Track Tape</span>
+        <span class="tag">6 Sequencers</span>
+        <span class="tag">10 Synth Engines</span>
+        <span class="tag">Sampler</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="section-title">How this guide works</div>
+      <div class="workflow">
+        <div class="wf-step highlight">
+          <div class="wf-dot">1</div>
+          <div class="wf-body">
+            <h4>Start with Setup</h4>
+            <p>Power on, set volume, select your first drum kit. Takes under 2 minutes.</p>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-dot">2</div>
+          <div class="wf-body">
+            <h4>Learn Drum Mode</h4>
+            <p>Play drums live on the keyboard, understand the 8 drum slots, and build your first pattern using the interactive beat grid below.</p>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-dot">3</div>
+          <div class="wf-body">
+            <h4>Record to Tape</h4>
+            <p>Capture your beat on one of the 4 tape tracks. Layer synths and melodies on top.</p>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-dot">4</div>
+          <div class="wf-body">
+            <h4>Add Sequencers</h4>
+            <p>Use the Endless, Pattern, or Finger sequencers to create rhythmic variation and fills automatically.</p>
+          </div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-dot">5</div>
+          <div class="wf-body">
+            <h4>Go Advanced</h4>
+            <p>Mix tape speeds, combine sequencers, sample the FM radio, and craft complex polyrhythmic patterns.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">The 4 main modes</div>
+      <div class="engine-grid">
+        <div class="engine-card" onclick="showPage('synth')">
+          <div class="engine-dot" style="background:#47c4ff"></div>
+          <div class="engine-name">Synth</div>
+          <div class="engine-type">Blue key</div>
+          <div class="engine-desc">10 synthesis engines for leads, bass, pads, and textural sounds.</div>
+        </div>
+        <div class="engine-card" onclick="showPage('drummode')">
+          <div class="engine-dot" style="background:#e8ff47"></div>
+          <div class="engine-name">Drum</div>
+          <div class="engine-type">Yellow key</div>
+          <div class="engine-desc">8-slot drum sampler. Play live or sequence patterns. Start here for beats.</div>
+        </div>
+        <div class="engine-card" onclick="showPage('tape')">
+          <div class="engine-dot" style="background:#ff6b35"></div>
+          <div class="engine-name">Tape</div>
+          <div class="engine-type">Orange key</div>
+          <div class="engine-desc">4-track analog-style recorder. Record, loop, and layer your ideas.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#4dff91"></div>
+          <div class="engine-name">Mixer</div>
+          <div class="engine-type">Green key</div>
+          <div class="engine-desc">Balance the 4 tape tracks. Adjust levels and send to effects.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <div class="page" id="page-setup">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 1 — Getting Started</div>
+      <h2>Setup & your first sound</h2>
+      <p>Before making beats, get your OP-1 powered up and playing audio. This takes less than 2 minutes.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">Quick start steps</div>
+      <div class="checklist" id="setup-checklist">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Slide the power switch (next to the USB port on the right side) toward you to power on</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Turn up volume using the white knob on the left side of the screen (clockwise = louder)</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Press the <kbd>DRUM</kbd> key to enter Drum Mode</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Press any key 1–8 (sound selection keys) to choose a drum kit</div>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div class="check-text">Hit any key on the musical keyboard — you should hear a drum sound!</div>
+        </div>
+      </div>
+
+      <div class="section-title">Essential key layout</div>
+      <div class="key-combos">
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SYNTH</kbd></div>
+          <div class="key-combo-desc">Enter synthesizer mode — pick sounds 1–8</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>DRUM</kbd></div>
+          <div class="key-combo-desc">Enter drum mode — pick drum kits 1–8</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>TAPE</kbd></div>
+          <div class="key-combo-desc">Enter tape mode — 4-track recorder</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>MIXER</kbd></div>
+          <div class="key-combo-desc">Enter mixer to balance your 4 tracks</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SHIFT</kbd></div>
+          <div class="key-combo-desc">Hold to access secondary functions on any key</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>HELP</kbd></div>
+          <div class="key-combo-desc">Shows battery level + contextual help for current mode</div>
+        </div>
+      </div>
+
+      <div class="tip tip-pro">
+        <div class="tip-icon">★</div>
+        <div><strong>Pro tip:</strong> Data saves automatically on the OP-1 — you never need to manually save. Everything is written to flash memory as you go.</div>
+      </div>
+
+      <div class="tip tip-note">
+        <div class="tip-icon">i</div>
+        <div>To check battery level: press <kbd>HELP</kbd>. The LEDs light up to show the level. Five lit LEDs = full charge.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DRUM MODE ============ -->
+  <div class="page" id="page-drummode">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 2 — Drum Mode</div>
+      <h2>Building your first beat</h2>
+      <p>The OP-1 drum sampler gives you 8 drum sounds per kit, playable live on the keyboard. Try the interactive beat builder below.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">Interactive beat builder</div>
+      <p style="font-size:13px; color:var(--text2); margin-bottom:16px;">Click cells to toggle hits. Each row = one drum sound. This is a 16-step grid, like the OP-1 Pattern sequencer.</p>
+
+      <div class="beat-grid-wrap">
+        <div class="tape-ruler">
+          <span class="tape-mark">1</span>
+          <span class="tape-mark" style="margin-left:calc(25% - 6px)">2</span>
+          <span class="tape-mark" style="margin-left:calc(25% - 6px)">3</span>
+          <span class="tape-mark" style="margin-left:calc(25% - 6px)">4</span>
+        </div>
+        <div class="beat-row">
+          <div class="beat-row-name">KICK</div>
+          <div class="beat-cells" id="row-kick"></div>
+        </div>
+        <div class="beat-row">
+          <div class="beat-row-name">SNARE</div>
+          <div class="beat-cells" id="row-snare"></div>
+        </div>
+        <div class="beat-row">
+          <div class="beat-row-name">HH</div>
+          <div class="beat-cells" id="row-hihat"></div>
+        </div>
+        <div class="beat-row">
+          <div class="beat-row-name">PERC</div>
+          <div class="beat-cells" id="row-perc"></div>
+        </div>
+        <div class="beat-controls">
+          <button class="beat-btn" onclick="loadPattern('basic')">Basic pattern</button>
+          <button class="beat-btn" onclick="loadPattern('offbeat')">Off-beat feel</button>
+          <button class="beat-btn" onclick="loadPattern('complex')">Complex</button>
+          <button class="beat-btn" onclick="clearPattern()">Clear</button>
+          <span class="beat-tempo">120 BPM</span>
+        </div>
+      </div>
+
+      <div class="section-title">Drum mode key controls</div>
+      <div class="key-combos">
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>DRUM</kbd></div>
+          <div class="key-combo-desc">Enter drum mode from any other mode</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>1</kbd>–<kbd>8</kbd></div>
+          <div class="key-combo-desc">Select drum kit (sound selection keys above the screen)</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>keyboard</kbd></div>
+          <div class="key-combo-desc">Each key triggers a specific drum sound — great for live drumming</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SHIFT</kbd> <span class="key-plus">+</span> <kbd>MIC/INPUT</kbd></div>
+          <div class="key-combo-desc">Sample a sound directly into a drum slot</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SEQ</kbd></div>
+          <div class="key-combo-desc">Open the sequencer while in drum mode</div>
+        </div>
+      </div>
+
+      <div class="section-title">Understanding the drum layout</div>
+      <div class="steps" id="drum-steps">
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-card-title">The 8-slot drum sampler</div>
+              <div class="step-card-desc">How drum sounds are organized</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Each drum kit has 8 sounds mapped across the keyboard. Sounds 1–8 (the selection keys) choose the kit, while the musical keyboard lets you trigger individual drums.</p>
+            <div class="tip tip-note">
+              <div class="tip-icon">i</div>
+              <div>The keyboard is laid out like a standard drum machine: low keys = kick/bass, mid keys = snare/clap, high keys = hats/cymbals.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-card-title">Dynamic envelope per drum</div>
+              <div class="step-card-desc">Shape attack, decay, sustain, release</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Each drum slot has its own envelope. In Drum Mode, turn the 4 white encoders (knobs) to adjust Attack, Decay, Sustain, and Release for the selected sound.</p>
+            <div class="key-combos">
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>Green knob</kbd></div>
+                <div class="key-combo-desc">Attack — how fast the sound starts</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>White knob 2</kbd></div>
+                <div class="key-combo-desc">Decay — how quickly it falls off</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>White knob 3</kbd></div>
+                <div class="key-combo-desc">Sustain — level while key is held</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>White knob 4</kbd></div>
+                <div class="key-combo-desc">Release — tail after key is released</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-card-title">Importing your own drum sounds</div>
+              <div class="step-card-desc">Customize kits via disk mode or sampling</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">You can replace any drum sound with your own samples. Connect via USB, enable Disk Mode, and drag .aif files into the drum folder. Or use the built-in mic to sample anything live.</p>
+            <div class="tip tip-pro">
+              <div class="tip-icon">★</div>
+              <div><strong>Handbook tip:</strong> You can create a whole drum kit from FM radio waves — tune to a station, then sample individual hits using the MIC/INPUT key in drum mode.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAPE ============ -->
+  <div class="page" id="page-tape">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 3 — Tape Mode</div>
+      <h2>Recording & arranging with tape</h2>
+      <p>The OP-1's Tape Mode works like a 4-track analog recorder. Record your drums, add bass, layer melodies — all on a single device.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">The 4-track tape layout</div>
+      <div class="tape-diagram">
+        <div class="tape-ruler">
+          <span style="color:var(--text3); margin-right:4px">T</span>
+          <span class="tape-mark" style="flex:1">0:00</span>
+          <span class="tape-mark" style="flex:1">0:30</span>
+          <span class="tape-mark" style="flex:1">1:00</span>
+          <span class="tape-mark" style="flex:1">1:30</span>
+          <span class="tape-mark" style="flex:1">2:00</span>
+          <span class="tape-mark" style="flex:1">2:30</span>
+        </div>
+        <div class="tape-tracks">
+          <div class="tape-track">
+            <div class="track-label">T1</div>
+            <div class="track-bar" style="background:var(--bg3)">
+              <div class="track-segment" style="left:0%; width:60%; background:#e8ff47">DRUMS</div>
+            </div>
+          </div>
+          <div class="tape-track">
+            <div class="track-label">T2</div>
+            <div class="track-bar" style="background:var(--bg3)">
+              <div class="track-segment" style="left:10%; width:50%; background:#47c4ff">BASS</div>
+            </div>
+          </div>
+          <div class="tape-track">
+            <div class="track-label">T3</div>
+            <div class="track-bar" style="background:var(--bg3)">
+              <div class="track-segment" style="left:20%; width:40%; background:#ff6b35">MELODY</div>
+              <div class="track-segment" style="left:65%; width:30%; background:#ff6b35; opacity:0.6">MELODY 2</div>
+            </div>
+          </div>
+          <div class="tape-track">
+            <div class="track-label">T4</div>
+            <div class="track-bar" style="background:var(--bg3)">
+              <div class="track-segment" style="left:40%; width:35%; background:#b47dff">SAMPLE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px; color:var(--text3); margin-top:8px; font-family:'Space Mono',monospace">6 minutes of total tape time. Each track is independent — you can record, erase, and overdub freely.</p>
+
+      <div class="section-title">Core tape controls</div>
+      <div class="key-combos">
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>T1</kbd>–<kbd>T4</kbd></div>
+          <div class="key-combo-desc">Select which tape track to record to (keys under the screen)</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>REC</kbd> <span class="key-plus">+</span> <kbd>PLAY</kbd></div>
+          <div class="key-combo-desc">Start recording to the selected track</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>STOP</kbd></div>
+          <div class="key-combo-desc">Stop recording or playback</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>◄◄</kbd></div>
+          <div class="key-combo-desc">Rewind. Hold for fast rewind, tap twice to jump to start</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SHIFT</kbd> <span class="key-plus">+</span> <kbd>◄◄</kbd></div>
+          <div class="key-combo-desc">Jump directly to the start of the tape</div>
+        </div>
+      </div>
+
+      <div class="section-title">Recording your first beat (step-by-step)</div>
+      <div class="steps">
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-card-title">Record drums to Track 1</div>
+              <div class="step-card-desc">The foundation of your beat</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <div class="workflow">
+              <div class="wf-step highlight">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Press DRUM key</h4><p>Enter drum mode and select a kit (keys 1–8)</p></div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Press TAPE key</h4><p>Go to tape mode, then press T1 to select track 1</p></div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Press REC + PLAY</h4><p>Tape starts rolling. Switch back to DRUM mode and play your beat on the keyboard.</p></div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Press STOP</h4><p>Stop recording. Rewind and press PLAY to hear it back.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-card-title">Overdub layers on top</div>
+              <div class="step-card-desc">Add bass, synths, and more without erasing</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Overdubbing lets you add new sounds on top of existing recordings on the same track. You can also record to a new track (T2, T3, T4) for cleaner separation.</p>
+            <div class="tip tip-warn">
+              <div class="tip-icon">!</div>
+              <div>Recording to a track that already has audio will overdub — not replace — unless you erase the section first. Use tape editing (LIFT tool) to remove sections.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-card-title">Tape speed tricks</div>
+              <div class="step-card-desc">Pitch-shifting and lo-fi textures</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Changing the tape speed after recording is a powerful creative trick. Slowing it down pitches everything down and creates a lo-fi, spacious feel. Speeding it up creates tight, pitched-up sounds.</p>
+            <div class="tip tip-pro">
+              <div class="tip-icon">★</div>
+              <div><strong>Handbook trick:</strong> Record a beat at double speed, then slow the tape to half — instant lo-fi, warped drum sound. This technique is mentioned in the OP-1 guide as a "tape trick."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SEQUENCERS ============ -->
+  <div class="page" id="page-sequencers">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 4 — Sequencers</div>
+      <h2>Automating your beats</h2>
+      <p>The OP-1 has 6 built-in sequencer types. Each one changes how rhythm and note data flows — from classic step sequencing to chance-based patterns.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">The 6 sequencers</div>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this, 'seq-overview')">All sequencers</div>
+        <div class="tab" onclick="switchTab(this, 'seq-beats')">Best for beats</div>
+      </div>
+
+      <div class="tab-content active" id="seq-overview">
+        <div class="seq-list">
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(232,255,71,0.12);color:#e8ff47">END</div>
+            <div class="seq-info">
+              <h4>Endless sequencer</h4>
+              <p>Classic step sequencer — up to 128 steps. Set playback direction, speed, and trigger patterns. The workhorse for programming any repeating beat or melody.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(71,196,255,0.12);color:#47c4ff">PAT</div>
+            <div class="seq-info">
+              <h4>Pattern sequencer</h4>
+              <p>Program a fixed-length pattern. Assign notes, rests, and ties. Great for drum patterns and melodic loops you want to repeat exactly.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(255,107,53,0.12);color:#ff6b35">TOM</div>
+            <div class="seq-info">
+              <h4>Tombola sequencer</h4>
+              <p>A ball drops through a grid of pegs, triggering notes as it falls. Semi-random and generative — perfect for organic, evolving percussion and arpeggios.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(77,255,145,0.12);color:#4dff91">FIN</div>
+            <div class="seq-info">
+              <h4>Finger sequencer</h4>
+              <p>Each note key holds a different pattern. Two patterns interact when both keys are pressed. Ideal for assigning your beat to one key and fills to others.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(180,125,255,0.12);color:#b47dff">SKT</div>
+            <div class="seq-info">
+              <h4>Sketch sequencer</h4>
+              <p>Draw a path directly on screen with the encoders. The path controls pitch and timing. Experimental and expressive — great for glitchy, drawn patterns.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(255,77,109,0.12);color:#ff4d6d">ARP</div>
+            <div class="seq-info">
+              <h4>Arpeggio sequencer</h4>
+              <p>Classic arpeggiator. Press a chord and the arpeggiator breaks it into a sequence. Different modes change the note order and octave range.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="seq-beats">
+        <div class="tip tip-note">
+          <div class="tip-icon">i</div>
+          <div>For building beats, these 3 sequencers work best in <strong>Drum Mode</strong>. Press <kbd>SEQ</kbd> while in Drum Mode to access them.</div>
+        </div>
+        <div class="seq-list" style="margin-top:16px">
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(232,255,71,0.12);color:#e8ff47">END</div>
+            <div class="seq-info">
+              <h4>Endless — for drum programming</h4>
+              <p>Program each drum hit across up to 128 steps. Set different speeds per sound for polyrhythmic patterns. This is your go-to drum sequencer.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(71,196,255,0.12);color:#47c4ff">FIN</div>
+            <div class="seq-info">
+              <h4>Finger — for beats with fills</h4>
+              <p>Assign your main beat to one key, drum fills to others. When two keys are pressed together the patterns interact using a set rule — great for live performance.</p>
+            </div>
+          </div>
+          <div class="seq-item">
+            <div class="seq-badge" style="background:rgba(255,107,53,0.12);color:#ff6b35">TOM</div>
+            <div class="seq-info">
+              <h4>Tombola — for organic percussion</h4>
+              <p>The semi-random ball-drop mechanism creates evolving, never-quite-the-same patterns. Use on a percussion layer over a steady kick/snare for movement.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">How to activate a sequencer</div>
+      <div class="key-combos">
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>DRUM</kbd></div>
+          <div class="key-combo-desc">Make sure you're in drum or synth mode first</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>SEQ</kbd></div>
+          <div class="key-combo-desc">Press the sequencer key (far right of the top row)</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>1</kbd>–<kbd>8</kbd></div>
+          <div class="key-combo-desc">Select the sequencer type using sound selection keys</div>
+        </div>
+        <div class="key-combo">
+          <div class="key-combo-keys"><kbd>PLAY</kbd></div>
+          <div class="key-combo-desc">Start the sequencer playing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SYNTH ============ -->
+  <div class="page" id="page-synth">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 5 — Synth Engines</div>
+      <h2>Adding melody & texture</h2>
+      <p>The OP-1 has 10 built-in synthesizer engines, each with a distinct character. Use them to add bass lines, leads, and atmospheric layers over your beats.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">Engines for beat producers</div>
+      <div class="engine-grid">
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#47c4ff"></div>
+          <div class="engine-name">FM</div>
+          <div class="engine-type">Frequency modulation</div>
+          <div class="engine-desc">Metallic, percussive, electric piano. Great for bass stabs and plucked sounds that cut through a beat.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#e8ff47"></div>
+          <div class="engine-name">Digital</div>
+          <div class="engine-type">Wavetable</div>
+          <div class="engine-desc">Clean, precise tones. Versatile for both sub bass and crisp lead lines.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#4dff91"></div>
+          <div class="engine-name">String</div>
+          <div class="engine-type">Physical modeling</div>
+          <div class="engine-desc">Plucked string sounds. Beautiful for melodic hooks and pad-like textures.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#ff6b35"></div>
+          <div class="engine-name">Cluster</div>
+          <div class="engine-type">Layered oscillators</div>
+          <div class="engine-desc">Thick, detuned sound. Perfect for atmospheric pads behind drum patterns.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#b47dff"></div>
+          <div class="engine-name">Sampler</div>
+          <div class="engine-type">Sample playback</div>
+          <div class="engine-desc">Load any sample and play it chromatically. Flip vinyl chops or vocal snippets across the keyboard.</div>
+        </div>
+        <div class="engine-card">
+          <div class="engine-dot" style="background:#ff4d6d"></div>
+          <div class="engine-name">Phase</div>
+          <div class="engine-type">Phase distortion</div>
+          <div class="engine-desc">CZ-style synthesis. Aggressive, nasal sounds — great for acid bass lines.</div>
+        </div>
+      </div>
+
+      <div class="section-title">Synth to beat workflow</div>
+      <div class="steps">
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-card-title">Craft a bass line with FM engine</div>
+              <div class="step-card-desc">Punchy, classic electronic bass</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">FM is ideal for bass because it creates harmonic content that defines pitch while cutting through dense drum patterns.</p>
+            <div class="key-combos">
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>SYNTH</kbd></div>
+                <div class="key-combo-desc">Enter synth mode</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>Green knob</kbd></div>
+                <div class="key-combo-desc">Adjust FM frequency ratio — lower = bassier</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>Blue knob</kbd></div>
+                <div class="key-combo-desc">FM depth — more = more harmonic complexity</div>
+              </div>
+            </div>
+            <div class="tip tip-pro">
+              <div class="tip-icon">★</div>
+              <div>Set Envelope to short attack + medium decay for a plucky bass stab, or long sustain for a held bass note.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-card-title">Use the Arpeggio sequencer for melody</div>
+              <div class="step-card-desc">Automatic note sequences from chords</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">The Arpeggio sequencer turns a held chord into a rapid note sequence — no programming required. Hold 3–4 keys and the OP-1 does the rest.</p>
+            <div class="tip tip-note">
+              <div class="tip-icon">i</div>
+              <div>Pair the Arpeggio sequencer with the Cluster engine for rich, moving pads that work great as a backdrop to your drum beat.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ADVANCED ============ -->
+  <div class="page" id="page-advanced">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 6 — Advanced Beat Making</div>
+      <h2>Complex rhythms & techniques</h2>
+      <p>Once you're comfortable with the basics, these techniques will take your beats to the next level — polyrhythms, layered sequencers, and tape manipulation.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">Advanced techniques</div>
+      <div class="steps">
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">A1</div>
+            <div>
+              <div class="step-card-title">Polyrhythms with the Endless sequencer</div>
+              <div class="step-card-desc">Different step lengths per instrument</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:14px;">Set different sequence lengths for kick, snare, and hi-hat. A kick on a 16-step loop, a hi-hat on 12 steps, and a shaker on 7 steps creates an evolving pattern that doesn't repeat for a long time.</p>
+            <div class="beat-grid-wrap">
+              <div class="beat-row">
+                <div class="beat-row-name" style="font-size:10px; width:42px">16-step</div>
+                <div class="beat-cells" id="row-poly-kick"></div>
+              </div>
+              <div class="beat-row">
+                <div class="beat-row-name" style="font-size:10px; width:42px">12-step</div>
+                <div class="beat-cells" id="row-poly-snare"></div>
+              </div>
+              <div class="beat-row">
+                <div class="beat-row-name" style="font-size:10px; width:42px">7-step</div>
+                <div class="beat-cells" id="row-poly-hihat"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">A2</div>
+            <div>
+              <div class="step-card-title">Layering two sequencer types</div>
+              <div class="step-card-desc">Combine Endless + Tombola for depth</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Program your kick and snare on the Endless sequencer for a rock-solid foundation. Then run Tombola on a percussion sound (cowbell, shaker, clave) for organic variation on top.</p>
+            <div class="workflow">
+              <div class="wf-step highlight">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Endless on T1</h4><p>Record drums using Endless sequencer to tape track 1</p></div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Switch to T2</h4><p>Select a percussion sound, activate Tombola</p></div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-dot">→</div>
+                <div class="wf-body"><h4>Overdub to T2</h4><p>Let the Tombola run while recording — each take is different</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">A3</div>
+            <div>
+              <div class="step-card-title">Using the LFO for beat variation</div>
+              <div class="step-card-desc">Automatic parameter modulation</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">The LFO (Low Frequency Oscillator) modulates any parameter over time — pitch, filter cutoff, volume. Route it to a hi-hat's volume for a sidechain-style pumping effect.</p>
+            <div class="key-combos">
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>LFO</kbd></div>
+                <div class="key-combo-desc">Access the LFO while in Synth or Drum mode</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>Green knob</kbd></div>
+                <div class="key-combo-desc">LFO rate — how fast it oscillates</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>Blue knob</kbd></div>
+                <div class="key-combo-desc">LFO depth — how much it modulates</div>
+              </div>
+            </div>
+            <div class="tip tip-pro">
+              <div class="tip-icon">★</div>
+              <div>The "Element" LFO mode syncs modulation to a specific drum hit. Use this to create sidechain compression-style ducking without external gear.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">A4</div>
+            <div>
+              <div class="step-card-title">Beat matching & tempo sync</div>
+              <div class="step-card-desc">Sync to external gear and DAWs</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">The OP-1 can sync to external MIDI clock or Pocket Operator sync. This lets you lock your tape and sequencer to a DAW or other hardware.</p>
+            <div class="key-combos">
+              <div class="key-combo">
+                <div class="key-combo-keys"><kbd>SHIFT</kbd> <span class="key-plus">+</span> <kbd>TEMPO</kbd></div>
+                <div class="key-combo-desc">Access sync mode settings</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys">PO sync</div>
+                <div class="key-combo-desc">Connect to Pocket Operators via the headphone jack</div>
+              </div>
+              <div class="key-combo">
+                <div class="key-combo-keys">MIDI clock</div>
+                <div class="key-combo-desc">Receive tempo from an external MIDI controller or DAW via USB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" onclick="toggleStep(this)">
+          <div class="step-card-header">
+            <div class="step-num">A5</div>
+            <div>
+              <div class="step-card-title">Tap tempo & the free mode</div>
+              <div class="step-card-desc">Set tempo by feel, not numbers</div>
+            </div>
+            <div class="step-toggle">▾</div>
+          </div>
+          <div class="step-content">
+            <p style="font-size:13.5px; color:var(--text2); margin-bottom:12px;">Tap the tempo key in rhythm to set your BPM by feel. Free Mode removes the tempo grid entirely for loose, unmeasured recording — great for ambient or experimental textures.</p>
+            <div class="tip tip-pro">
+              <div class="tip-icon">★</div>
+              <div>Record in Free Mode first to capture a natural, human groove, then switch to a fixed tempo to layer sequenced elements on top.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TIPS ============ -->
+  <div class="page" id="page-tips">
+    <div class="hero">
+      <div class="hero-eyebrow">Chapter 7 — Pro Tips</div>
+      <h2>Handbook tricks & workflows</h2>
+      <p>These techniques are pulled directly from the official OP-1 documentation and the OP-School guide series.</p>
+    </div>
+    <div class="content">
+      <div class="section-title">From the official handbook</div>
+
+      <div class="tip tip-pro" style="margin-bottom:12px">
+        <div class="tip-icon">★</div>
+        <div><strong>Drum kit from FM radio:</strong> Tune to a static-heavy station, then sample individual bursts directly into drum slots. Creates unique, organic-feeling noise percussion that nobody else has.</div>
+      </div>
+
+      <div class="tip tip-pro" style="margin-bottom:12px">
+        <div class="tip-icon">★</div>
+        <div><strong>Singing birds sound:</strong> Use FM engine, short attack/decay with long release, Spring reverb effect, Tombola sequencer. A classic exercise from the OP-1 handbook that demonstrates how sequencer + engine combination creates character.</div>
+      </div>
+
+      <div class="tip tip-pro" style="margin-bottom:12px">
+        <div class="tip-icon">★</div>
+        <div><strong>Random parameter trick:</strong> In Synth mode, press the RANDOM parameter option to randomize all values in the current module at once. Record the happy accidents before touching anything.</div>
+      </div>
+
+      <div class="tip tip-note" style="margin-bottom:12px">
+        <div class="tip-icon">i</div>
+        <div><strong>COM mode:</strong> Connect two OP-1s via a 3.5mm cable and use COM mode to send MIDI note data between them. Build multi-device live setups with one OP-1 clocking another.</div>
+      </div>
+
+      <div class="tip tip-note" style="margin-bottom:12px">
+        <div class="tip-icon">i</div>
+        <div><strong>Ableton Live integration:</strong> Use OP-1 Mode or MIDI Controller mode to send MIDI to Live. The official handbook includes specific key assignment mappings for Live control.</div>
+      </div>
+
+      <div class="tip tip-warn" style="margin-bottom:12px">
+        <div class="tip-icon">!</div>
+        <div><strong>Album render:</strong> When you're done, use Album Mode to bounce your 4 tracks to a stereo file. Connect to a computer in Disk Mode to export the .aif file. This is your finished track.</div>
+      </div>
+
+      <div class="section-title">Beat progression roadmap</div>
+      <div class="workflow">
+        <div class="wf-step highlight">
+          <div class="wf-dot">①</div>
+          <div class="wf-body"><h4>Simple 4-on-the-floor</h4><p>Kick on every beat, snare on 2 and 4, hi-hat in 8ths. Record live in Drum Mode to Tape Track 1.</p></div>
+        </div>
+        <div class="wf-step highlight">
+          <div class="wf-dot">②</div>
+          <div class="wf-body"><h4>Add syncopation</h4><p>Use the Pattern sequencer to move the kick slightly off the grid. Add ghost notes to the snare.</p></div>
+        </div>
+        <div class="wf-step highlight">
+          <div class="wf-dot">③</div>
+          <div class="wf-body"><h4>Layer melody</h4><p>Record a bass line on T2 with FM engine. Add a lead on T3 using the Arpeggio sequencer.</p></div>
+        </div>
+        <div class="wf-step highlight">
+          <div class="wf-dot">④</div>
+          <div class="wf-body"><h4>Add live variation</h4><p>Use the Finger sequencer to create fills triggered by key combos. Switch between beats live.</p></div>
+        </div>
+        <div class="wf-step highlight">
+          <div class="wf-dot">⑤</div>
+          <div class="wf-body"><h4>Texture & effects</h4><p>Apply LFO modulation, add the Tombola on a percussion layer, and use tape speed to create a lo-fi finish.</p></div>
+        </div>
+        <div class="wf-step">
+          <div class="wf-dot">⑥</div>
+          <div class="wf-body"><h4>Render the album</h4><p>Switch to Album Mode and bounce your 4 tracks to stereo. Export via Disk Mode.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+const PATTERNS = {
+  basic: {
+    kick:  [1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0],
+    snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0],
+    hihat: [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0],
+    perc:  [0,0,0,0, 0,0,0,1, 0,0,0,0, 0,0,1,0]
+  },
+  offbeat: {
+    kick:  [1,0,0,0, 0,0,1,0, 1,0,0,1, 0,0,0,0],
+    snare: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,1,0],
+    hihat: [1,1,0,1, 1,0,1,1, 0,1,1,0, 1,1,0,1],
+    perc:  [0,0,1,0, 0,1,0,0, 0,0,0,1, 0,0,0,0]
+  },
+  complex: {
+    kick:  [1,0,0,1, 0,0,1,0, 0,1,0,0, 1,0,0,1],
+    snare: [0,0,1,0, 1,0,0,1, 0,0,1,0, 0,1,0,0],
+    hihat: [1,1,1,0, 1,1,0,1, 1,0,1,1, 1,1,1,0],
+    perc:  [0,1,0,0, 1,0,1,0, 0,1,0,1, 0,0,1,0]
+  }
+};
+
+const POLY = {
+  kick16:  [1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0],
+  snare12: [0,0,0,1, 0,0,1,0, 0,0,1,0, null,null,null,null],
+  hihat7:  [1,0,1,0, 1,0,1,null,null,null,null,null,null,null,null,null]
+};
+
+function buildGrid(rowId, activeClass, steps = 16) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  row.innerHTML = '';
+  for (let i = 0; i < steps; i++) {
+    if (i > 0 && i % 4 === 0) {
+      const sep = document.createElement('div');
+      sep.className = 'beat-cell beat-1';
+      row.appendChild(sep);
+    }
+    const cell = document.createElement('div');
+    cell.className = 'beat-cell';
+    cell.dataset.idx = i;
+    cell.dataset.activeClass = activeClass;
+    if (steps < 16) cell.style.width = '22px';
+    cell.onclick = () => {
+      cell.classList.toggle(activeClass);
+    };
+    row.appendChild(cell);
+  }
+}
+
+function loadPattern(name) {
+  const p = PATTERNS[name];
+  setRow('row-kick', p.kick, 'active-kick');
+  setRow('row-snare', p.snare, 'active-snare');
+  setRow('row-hihat', p.hihat, 'active-hihat');
+  setRow('row-perc', p.perc, 'active-perc');
+}
+
+function setRow(rowId, data, cls) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  const cells = row.querySelectorAll('.beat-cell:not(.beat-1)');
+  cells.forEach((c, i) => {
+    c.className = 'beat-cell';
+    if (data[i]) c.classList.add(cls);
+  });
+}
+
+function clearPattern() {
+  ['row-kick','row-snare','row-hihat','row-perc'].forEach(id => {
+    const row = document.getElementById(id);
+    if (row) row.querySelectorAll('.beat-cell').forEach(c => c.className = 'beat-cell');
+  });
+}
+
+function buildPolyGrids() {
+  buildGrid('row-poly-kick', 'active-kick', 16);
+  buildGrid('row-poly-snare', 'active-snare', 12);
+  buildGrid('row-poly-hihat', 'active-hihat', 7);
+
+  setTimeout(() => {
+    setRow('row-poly-kick', POLY.kick16, 'active-kick');
+    setRow('row-poly-snare', POLY.snare12.slice(0,12), 'active-snare');
+    setRow('row-poly-hihat', POLY.hihat7.slice(0,7), 'active-hihat');
+  }, 50);
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + name + "'")) {
+      n.classList.add('active');
+    }
+  });
+  updateProgress();
+  if (name === 'advanced') setTimeout(buildPolyGrids, 100);
+}
+
+function toggleStep(card) {
+  card.classList.toggle('expanded');
+}
+
+function toggleCheck(item) {
+  item.classList.toggle('checked');
+  const box = item.querySelector('.check-box');
+  box.textContent = item.classList.contains('checked') ? '✓' : '';
+  updateProgress();
+}
+
+function switchTab(tab, contentId) {
+  const parent = tab.closest('.content');
+  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.check-item').length;
+  const checked = document.querySelectorAll('.check-item.checked').length;
+  const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+// Initialize grids
+buildGrid('row-kick', 'active-kick');
+buildGrid('row-snare', 'active-snare');
+buildGrid('row-hihat', 'active-hihat');
+buildGrid('row-perc', 'active-perc');
+loadPattern('basic');
+</script>
+
+</body>
+</html>

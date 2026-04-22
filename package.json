@@ -1,0 +1,35 @@
+{
+  "name": "op1-beat-guide",
+  "version": "1.0.0",
+  "description": "OP-1 Beat Making Guide — interactive learning app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.op1.beatguide",
+    "productName": "OP-1 Beat Guide",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "OP-1 Beat Guide"
+    },
+    "files": [
+      "main.js",
+      "op1-learning-guide.html",
+      "icon.png",
+      "icon.ico"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}
